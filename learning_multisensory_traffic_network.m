@@ -18,7 +18,7 @@ MIN_VAL         = -1.0;
 MAX_VAL         = 1.0;
 
 traffic_demo = 1; % 0/1 with or without traffic data
-traffic_pair = 1; % pair 1, 2, or 3 from the 3 vars NO2, Humidity, Vehicle Count
+traffic_pair = 2; % pair 1, 2, or 3 from the 3 vars NO2, Humidity, Vehicle Count
 img = 'setup.png';
 
 contains = @(str, pattern) ~cellfun('isempty', strfind(str, pattern));
@@ -93,12 +93,12 @@ if traffic_demo == 1
             % example NO2 and Vehicle Count for site 1
             uon_sensory_data.x = site1_sensors(1:uon_sensory_data.num_vals, contains(site1_sensors_names,'NO2'));
             uon_sensory_data.y = vehicle_count;
-            img = 'setup2.png';
+            img = 'setup.png';
         case 3
             % example Humidity and Vehicle Count for site 1
             uon_sensory_data.x = site2_sensors(1:uon_sensory_data.num_vals, contains(site2_sensors_names,'Humidity'));
             uon_sensory_data.y = vehicle_count;
-            img = 'setup3.png';
+            img = 'setup.png';
     end
     % data is scaled, compressed top [-1, 1] for neural computation
     sensory_data.x  = MIN_VAL + rand(N_SAMPLES, 1)*(MAX_VAL - MIN_VAL);
@@ -200,17 +200,14 @@ for didx = 1:DATASET_LEN
                 switch traffic_pair
                     case 1
                         % example NO2 and Humidity for site 1
-                        visualize_runtime_traffic_setup(uon_sensory_data, sensory_data, populations, didx, 'NO2', 'Humidity', img);
+                        visualize_runtime_traffic_setup_demo(uon_sensory_data, sensory_data, populations, didx, 'NO2', 'Humidity', img);
                     case 2
                         % example NO2 and Vehicle Count for site 1
-                        visualize_runtime_traffic_setup(uon_sensory_data,sensory_data, populations, didx, 'NO2', 'VehicleCount', img);
+                        visualize_runtime_traffic_setup_demo(uon_sensory_data,sensory_data, populations, didx, 'NO2', 'VehicleCount', img);
                     case 3
                         % example Humidity and Vehicle Count for site 1
-                        visualize_runtime_traffic_setup(uon_sensory_data,sensory_data, populations, didx, 'Humidity','VehicleCount', img);
+                        visualize_runtime_traffic_setup_demo(uon_sensory_data,sensory_data, populations, didx, 'Humidity','VehicleCount', img);
                 end
-            else
-                % visualize post-simulation data
-                visualize_runtime(sensory_data, populations, 1, t, didx);
             end
         end
     end  % WTA convergence loop
@@ -231,7 +228,7 @@ for didx = 1:DATASET_LEN
     old_avg = cur_avg;
     % increment timestep for HL and HAR loop
     t = t + 1;
-end % end of all samples in the training dataset
+end % end of all samples in the training datasset
 
 % for the traffic go scenario use different visualizers for each case.
 if traffic_demo == 1
@@ -239,15 +236,12 @@ if traffic_demo == 1
     switch traffic_pair
         case 1
             % example NO2 and Humidity for site 1
-            visualize_runtime_traffic_setup(uon_sensory_data, sensory_data, populations, didx, 'NO2', 'Humidity', img);
+            visualize_runtime_traffic_setup_demo(uon_sensory_data, sensory_data, populations, didx, 'NO2', 'Humidity', img);
         case 2
             % example NO2 and Vehicle Count for site 1
-            visualize_runtime_traffic_setup(uon_sensory_data, sensory_data, populations, didx, 'NO2', 'VehicleCount', img);
+            visualize_runtime_traffic_setup_demo(uon_sensory_data, sensory_data, populations, didx, 'NO2', 'VehicleCount', img);
         case 3
             % example Humidity and Vehicle Count for site 1
-            visualize_runtime_traffic_setup(uon_sensory_data, sensory_data, populations, didx, 'Humidity','VehicleCount', img);
+            visualize_runtime_traffic_setup_demo(uon_sensory_data, sensory_data, populations, didx, 'Humidity','VehicleCount', img);
     end
-else
-    % visualize post-simulation data
-    visualize_runtime(sensory_data, populations, 1, t, DATASET_LEN);
 end

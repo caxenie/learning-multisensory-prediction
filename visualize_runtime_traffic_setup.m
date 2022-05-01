@@ -1,10 +1,6 @@
 % function to visualize network data at a given iteration in runtime
-function visualize_runtime_traffic_setup(uon_sensory_data,sensory_data, populations, d, sensor1, sensor2, img)
-    set(gcf, 'color', 'w');
-    % overlay scenario
-    stp = subplot(8, 3, [1 9]);
-
-    image( imread(img) ); box off; axis off;
+function visualize_runtime_traffic_setup(uon_sensory_data,sensory_data, populations, d, sensor1, sensor2)
+set(gcf, 'color', 'w');
     switch sensor1
         case 'NO2'
             color1 = '.g';
@@ -13,10 +9,9 @@ function visualize_runtime_traffic_setup(uon_sensory_data,sensory_data, populati
         case 'Humidity'
             color1 = '.b';
     end
-    set(stp,'LooseInset',get(stp,'TightInset'));
 
     % sensory data 1
-    d1 = subplot(8, 3, 10);
+    d1 = subplot(5, 3, 1);
     acth3 = plot(uon_sensory_data.x(d), color1, 'MarkerSize', 10); box off; hold on;
     set(d1,'LooseInset',get(d1,'TightInset'));
     set(d1, 'YtickLabel',[]);
@@ -25,7 +20,7 @@ function visualize_runtime_traffic_setup(uon_sensory_data,sensory_data, populati
     title(sprintf('Sensory data sample %d', d));
 
     % sample pair
-    d2 = subplot(8, 3, [11 15]);
+    d2 = subplot(5, 3, [2 6]);
     set(d2,'LooseInset',get(d2,'TightInset'));
     acth5 = plot(sensory_data.x(d), sensory_data.y(d), 'ok', 'MarkerEdgeColor', 'k', 'MarkerSize', 10);
     hold on; plot(sensory_data.x, sensory_data.y, '.g'); box off;
@@ -48,7 +43,7 @@ function visualize_runtime_traffic_setup(uon_sensory_data,sensory_data, populati
         case 'Humidity'
             color2 = '.b';
     end
-    d3 = subplot(8, 3, 13);
+    d3 = subplot(5, 3, 4);
     set(d3,'LooseInset',get(d3,'TightInset'));
     acth4 = plot(uon_sensory_data.y(d), color2, 'MarkerSize', 10); box off; hold on;
     set(d3, 'YtickLabel',[]);
@@ -56,7 +51,7 @@ function visualize_runtime_traffic_setup(uon_sensory_data,sensory_data, populati
     ylabel(sensor2);
 
     % hebbian links between populations containing the learnt relation
-    hpc1 = subplot(8, 3, [16 24]);
+    hpc1 = subplot(5, 3, [7, 15]);
     set(hpc1,'LooseInset',get(hpc1,'TightInset'));
     ax1=get(hpc1,'position'); % Save the position as ax
     set(hpc1,'position',ax1); % Manually setting this holds the position with colorbar
